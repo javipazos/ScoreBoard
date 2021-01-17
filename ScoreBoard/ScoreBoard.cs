@@ -25,7 +25,7 @@ namespace ScoreBoard
             var actionResult = new ActionResult();
             if (!_scoreBoard.TryGetValue((homeTeam, awayTeam),out var game))
             {
-                actionResult.ErrorMessage = $"There is no a game for {homeTeam} vs {awayTeam}";
+                actionResult.ErrorMessage = $"There is not a game for {homeTeam} vs {awayTeam}";
                 actionResult.Success = false;
                 return actionResult;
             }
@@ -38,7 +38,7 @@ namespace ScoreBoard
             var actionResult = new ActionResult();
             if (!_scoreBoard.ContainsKey((homeTeam, awayTeam)))
             {
-                actionResult.ErrorMessage = $"There is no a game for {homeTeam} vs {awayTeam}";
+                actionResult.ErrorMessage = $"There is not a game for {homeTeam} vs {awayTeam}";
                 actionResult.Success = false;
                 return actionResult;
             }

@@ -41,6 +41,35 @@ namespace ScoreBoardTests
         }
 
         [TestMethod()]
+        public void ShouldFailUpdateGameScoreWhenThereIsNoGame()
+        {
+            var homeTeam = "homeTeam";
+            var awayTeam = "awayTeam";
+            var homeScore = 2;
+            var awayScore = 1;
+            var scoreBoards = new ScoreBoard.ScoreBoard();
+
+            var updateResult = scoreBoards.UpdateGameScore(homeTeam, awayTeam, homeScore, awayScore);
+            Assert.IsFalse(updateResult.Success);
+            Assert.AreEqual($"There is not a game for {homeTeam} vs {awayTeam}", updateResult.ErrorMessage);
+        }
+
+        [TestMethod()]
+        public void ShouldFailUpdateGameScoreWhenScoreLowerThanZero()
+        {
+            var homeTeam = "homeTeam";
+            var awayTeam = "awayTeam";
+            var homeScore = -9;
+            var awayScore = 1;
+            var scoreBoards = new ScoreBoard.ScoreBoard();
+
+            _ = scoreBoards.StartGame(homeTeam, awayTeam);
+            var updateResult = scoreBoards.UpdateGameScore(homeTeam, awayTeam, homeScore, awayScore);
+            Assert.IsFalse(updateResult.Success);
+            Assert.AreEqual("Scores cannot be lower than 0", updateResult.ErrorMessage);
+        }
+
+        [TestMethod()]
         public void FinishGameTest()
         {
             var homeTeam = "homeTeam";
@@ -51,6 +80,18 @@ namespace ScoreBoardTests
 
             Assert.IsTrue(scoreBoards.FinishGame(homeTeam, awayTeam).Success);
             Assert.AreEqual("The score board is empty", scoreBoards.GetScoreBoard().Single());
+        }
+
+        [TestMethod()]
+        public void ShouldFailFinishGameWhenThereIsNoGame()
+        {
+            var homeTeam = "homeTeam";
+            var awayTeam = "awayTeam";
+            var scoreBoards = new ScoreBoard.ScoreBoard();
+
+            var updateResult = scoreBoards.FinishGame(homeTeam, awayTeam);
+            Assert.IsFalse(updateResult.Success);
+            Assert.AreEqual($"There is not a game for {homeTeam} vs {awayTeam}", updateResult.ErrorMessage);
         }
 
         [TestMethod()]
